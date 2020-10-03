@@ -1,3 +1,2 @@
-// set up before Leaflet files to test L#noConflict later
-L = 'test';
-
+// Trick Leaflet into believing we have a touchscreen (for desktop)
+if (window.TouchEvent) { window.ontouchstart = function(){} };

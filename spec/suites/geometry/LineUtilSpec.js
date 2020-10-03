@@ -1,7 +1,5 @@
 describe('LineUtil', function () {
-
 	describe('#clipSegment', function () {
-
 		var bounds;
 
 		beforeEach(function () {
@@ -14,16 +12,16 @@ describe('LineUtil', function () {
 
 			var segment = L.LineUtil.clipSegment(a, b, bounds);
 
-			expect(segment[0]).toEqual(new L.Point(5, 5));
-			expect(segment[1]).toEqual(new L.Point(10, 10));
+			expect(segment[0]).to.eql(new L.Point(5, 5));
+			expect(segment[1]).to.eql(new L.Point(10, 10));
 
 			var c = new L.Point(5, -5);
 			var d = new L.Point(20, 10);
 
 			var segment2 = L.LineUtil.clipSegment(c, d, bounds);
 
-			expect(segment2[0]).toEqual(new L.Point(10, 0));
-			expect(segment2[1]).toEqual(new L.Point(15, 5));
+			expect(segment2[0]).to.eql(new L.Point(10, 0));
+			expect(segment2[1]).to.eql(new L.Point(15, 5));
 		});
 
 		it('uses last bit code and reject segments out of bounds', function () {
@@ -31,22 +29,36 @@ describe('LineUtil', function () {
 			var b = new L.Point(25, 20);
 			var segment = L.LineUtil.clipSegment(a, b, bounds, true);
 
-			expect(segment).toBe(false);
+			expect(segment).to.be(false);
+		});
+
+		it('can round numbers in clipped bounds', function () {
+			var a = new L.Point(4, 5);
+			var b = new L.Point(8, 6);
+
+			var segment1 = L.LineUtil.clipSegment(a, b, bounds);
+
+			expect(segment1[0]).to.eql(new L.Point(5, 5.25));
+			expect(segment1[1]).to.eql(b);
+
+			var segment2 = L.LineUtil.clipSegment(a, b, bounds, false, true);
+
+			expect(segment2[0]).to.eql(new L.Point(5, 5));
+			expect(segment2[1]).to.eql(b);
 		});
 	});
 
 	describe('#pointToSegmentDistance & #closestPointOnSegment', function () {
-
 		var p1 = new L.Point(0, 10);
 		var p2 = new L.Point(10, 0);
 		var p = new L.Point(0, 0);
 
 		it('calculates distance from point to segment', function () {
-			expect(L.LineUtil.pointToSegmentDistance(p, p1, p2)).toEqual(Math.sqrt(200) / 2);
+			expect(L.LineUtil.pointToSegmentDistance(p, p1, p2)).to.eql(Math.sqrt(200) / 2);
 		});
 
 		it('calculates point closest to segment', function () {
-			expect(L.LineUtil.closestPointOnSegment(p, p1, p2)).toEqual(new L.Point(5, 5));
+			expect(L.LineUtil.closestPointOnSegment(p, p1, p2)).to.eql(new L.Point(5, 5));
 		});
 	});
 
@@ -64,12 +76,11 @@ describe('LineUtil', function () {
 
 			var simplified = L.LineUtil.simplify(points, 0.1);
 
-			expect(simplified).toEqual([
+			expect(simplified).to.eql([
 				new L.Point(0, 0),
 				new L.Point(1, 0),
 				new L.Point(2, 1)
 			]);
 		});
 	});
-
 });

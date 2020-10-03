@@ -1,22 +1,24 @@
-/*
- * The L namespace contains all Leaflet classes and functions.
- * This code allows you to handle any possible namespace conflicts.
- */
 
-var L, originalL;
+import {version} from '../package.json';
+export {version};
 
-if (typeof exports !== undefined + '') {
-	L = exports;
-} else {
-	originalL = window.L;
-	L = {};
+// control
+export * from './control/index';
 
-	L.noConflict = function () {
-		window.L = originalL;
-		return this;
-	};
+// core
+export * from './core/index';
 
-	window.L = L;
-}
+// dom
+export * from './dom/index';
 
-L.version = '0.6-dev';
+// geometry
+export * from './geometry/index';
+
+// geo
+export * from './geo/index';
+
+// layer
+export * from './layer/index';
+
+// map
+export * from './map/index';
